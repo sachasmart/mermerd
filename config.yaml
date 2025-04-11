@@ -1,0 +1,14 @@
+# Connection properties
+connectionString: "postgresql://${DB_USER}:${DB_PASSWORD}@localhost:${DB_PORT}/${DB_NAME}"
+schema: "${DB_SCHEMA}"
+# useAllSchemas: true
+# Define what tables should be used
+useAllTables: true
+
+# Additional flags
+showAllConstraints: true
+outputFileName: "dbERD.mmd"
+encloseWithMermaidBackticks: false
+debug: true
+omitConstraintLabels: false
+omitAttributeKeys: false

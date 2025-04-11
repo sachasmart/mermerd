@@ -1,0 +1,30 @@
+version: "3.7"
+services:
+  mermerd:
+    build: .
+    # image: 522507079211.dkr.ecr.us-east-1.amazonaws.com/mermerd:latest
+    container_name: mermerd
+    command: sh ./erd.sh
+    environment:
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_PORT=${DB_PORT:-5432}
+      - DB_HOST=${DB_HOST:-localhost}
+    volumes:
+      - ./erd-shared:/shared:rw
+    network_mode: "host"
+  mermaid:
+    image: "minlag/mermaid-cli"
+    container_name: "mermaid"
+    volumes:
+      - ./erd-shared:/shared/:rw
+    command: "mermaid -s 10 -i /shared/dbERD.mmd --output /shared/dbERD.png"
+    privileged: true
+    user: "root"
+    depends_on:
+      mermerd:
+        condition: service_completed_successfully
+
+volumes:
+  erd-shared:
+    external: true
